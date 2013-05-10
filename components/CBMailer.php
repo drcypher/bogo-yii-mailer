@@ -45,7 +45,7 @@ abstract class CBMailer extends CApplicationComponent
 	 *
 	 * @var boolean
 	 */
-	public $isActive = true;
+	public $inDebugMode = true;
 
 	/**
 	 * Initialize from application-wide configuration.

@@ -89,15 +89,15 @@ class CBMailerNativePhpMail extends CBMailer
 		$toAddressesString = $this->makeNamedAddressesString($envelope->to);
 
 		// Send email
-		if ($this->isActive) {
-			mail($toAddressesString, $message->subject, $message->body, $finalHeadersString);
-		} else {
+		if ($this->inDebugMode) {
 			Yii::trace(print_r([
 				'to' => $toAddressesString,
 				'subject' => $message->subject,
 				'body' => $message->body,
 				'headers' => $finalHeadersString
-			], true), 'bogoyii.mail.CBMailerPhpMail');
+			], true), 'bogo-yii-mailer.CBMailerPhpMail');
+		} else {
+			mail($toAddressesString, $message->subject, $message->body, $finalHeadersString);
 		}
 	}
 }
