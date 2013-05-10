@@ -60,27 +60,16 @@ abstract class CBMailer extends CApplicationComponent
 	 *
 	 * Recognized formats:
 	 * <ul>
-	 * <li>(Array)array('address'=>$address, 'name'=>$name)</li>
-	 * <li>(Array)array('address'=>$address)</li>
+	 * <li>(Array)array('address'=>'name')</li>
 	 * <li>(String)$address</li>
 	 * </ul>
 	 *
-	 * @param string|string[] $address
+	 * @param string|string[] $rawAddress
 	 * @return array
 	 */
-	static public function makeNamedAddressAssoc($address)
+	static public function makeNamedAddressAssoc($rawAddress)
 	{
-		if (is_array($address)) {
-			if (isset($address['address'])) {
-				// array('address'=>$address, 'name'=>$name) or array('address'=>$address) format
-				return array('address'=>$address['address'],'name'=>empty($address['name']) ? null : $address['name']);
-			} else {
-				throw new CException('Unrecognized address format: '.var_export($address, true));
-			}
-		} else {
-			// $address format
-			return array('address'=>$address,'name'=>null);
-		}
+		return is_array($rawAddress) ? $rawAddress : array($rawAddress=>null);
 	}
 
 	/**

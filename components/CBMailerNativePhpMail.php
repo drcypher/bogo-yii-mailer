@@ -12,7 +12,9 @@ class CBMailerNativePhpMail extends CBMailer
 	 */
 	private function makeNamedAddressString($namedAddressAssoc)
 	{
-		return $namedAddressAssoc['name'] ? $namedAddressAssoc['name'].' <'.$namedAddressAssoc['address'].'>' : $namedAddressAssoc['address'];
+		list($address, $name) = each($namedAddressAssoc);
+
+		return $name ? $name.' <'.$address.'>' : $address;
 	}
 
 	/**
