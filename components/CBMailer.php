@@ -3,6 +3,10 @@
  * Abstract mailer application component.
  *
  * Defines a standard interface for concrete mailers.
+ *
+ * @since 1.0
+ * @package Components
+ * @author Konstantinos Filios <konfilios@gmail.com>
  */
 abstract class CBMailer extends CApplicationComponent
 {
@@ -48,7 +52,14 @@ abstract class CBMailer extends CApplicationComponent
 	public $inDebugMode = true;
 
 	/**
-	 * Initialize from application-wide configuration.
+	 * Turns on activity logging for debugging purposes.
+	 *
+	 * @var boolean
+	 */
+	public $doLogActivity = false;
+
+	/**
+	 * CApplicationComponent initialization.
 	 */
 	public function init()
 	{
@@ -107,12 +118,40 @@ abstract class CBMailer extends CApplicationComponent
 			return $envelope->replyTo ?: $this->replyTo;
 		}
 	}
+	/**
+	 * Create a named address string from a named address assoc.
+	 *
+	 * @param string[] $namedAddressAssoc
+	 * @return string
+	 */
+	protected function makeNamedAddressString($namedAddressAssoc)
+	{
+		list($address, $name) = each($namedAddressAssoc);
+
+		return $name ? $name.' <'.$address.'>' : $address;
+	}
+
+	/**
+	 * Create a csv of name addresses.
+	 *
+	 * @param type $rawAddresses
+	 * @return string
+	 */
+	protected function makeNamedAddressesString($rawAddresses)
+	{
+		$str = '';
+		foreach ($rawAddresses as $rawAddress) {
+			$str .= ($str ? ', ' : '').$this->makeNamedAddressString(self::makeNamedAddressAssoc($rawAddress));
+		}
+		return $str;
+	}
 
 	/**
 	 * Send email message.
 	 *
 	 * @param CBMailEnvelope|array $envelope
 	 * @param CBMailMessage|array $message
+	 * @return boolean True on success
 	 */
 	abstract public function send($envelope, $message);
 }

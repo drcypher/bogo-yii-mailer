@@ -1,42 +1,20 @@
 <?php
 /**
  * Concrete mailer using native PHP mail() function.
+ *
+ * @since 1.0
+ * @package Components
+ * @author Konstantinos Filios <konfilios@gmail.com>
  */
 class CBMailerNativePhpMail extends CBMailer
 {
-	/**
-	 * Create a named address string from a named address assoc.
-	 *
-	 * @param string[] $namedAddressAssoc
-	 * @return string
-	 */
-	private function makeNamedAddressString($namedAddressAssoc)
-	{
-		list($address, $name) = each($namedAddressAssoc);
-
-		return $name ? $name.' <'.$address.'>' : $address;
-	}
-
-	/**
-	 * Create a csv of name addresses.
-	 *
-	 * @param type $rawAddresses
-	 * @return string
-	 */
-	private function makeNamedAddressesString($rawAddresses)
-	{
-		$str = '';
-		foreach ($rawAddresses as $rawAddress) {
-			$str .= ($str ? ', ' : '').$this->makeNamedAddressString(CBMailer::makeNamedAddressAssoc($rawAddress));
-		}
-		return $str;
-	}
 
 	/**
 	 * Send email message.
 	 *
 	 * @param CBMailEnvelope|array $envelope
 	 * @param CBMailMessage|array $message
+	 * @return boolean True on success
 	 */
 	public function send($envelope, $message)
 	{
@@ -92,14 +70,16 @@ class CBMailerNativePhpMail extends CBMailer
 
 		// Send email
 		if ($this->inDebugMode) {
-			Yii::trace(print_r([
+			Yii::trace(print_r(array(
 				'to' => $toAddressesString,
 				'subject' => $message->subject,
 				'body' => $message->body,
 				'headers' => $finalHeadersString
-			], true), 'bogo-yii-mailer.CBMailerPhpMail');
+			), true), 'bogo-yii-mailer.CBMailerNativePhpMail');
+
+			return true;
 		} else {
-			mail($toAddressesString, $message->subject, $message->body, $finalHeadersString);
+			return mail($toAddressesString, $message->subject, $message->body, $finalHeadersString);
 		}
 	}
 }

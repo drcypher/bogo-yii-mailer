@@ -1,5 +1,10 @@
 <?php
 /**
+ * A mail message compiled using a twig environment.
+ *
+ * @since 1.0
+ * @package Components
+ * @author Konstantinos Filios <konfilios@gmail.com>
  */
 class CBMailMessageTwig extends CBMailMessage
 {

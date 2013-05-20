@@ -1,6 +1,12 @@
 <?php
-/*
+/**
  * A mail envelope.
+ * 
+ * Contains from/to addresses. An envelope is required by CBMailer::send() method.
+ *
+ * @since 1.0
+ * @package Components
+ * @author Konstantinos Filios <konfilios@gmail.com>
  */
 class CBMailEnvelope
 {

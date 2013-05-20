@@ -3,6 +3,10 @@
  * Mail message.
  *
  * A CBMailer can send CBMailMessage instances using CBMailer::send() method.
+ *
+ * @since 1.0
+ * @package Components
+ * @author Konstantinos Filios <konfilios@gmail.com>
  */
 class CBMailMessage extends CComponent
 {
